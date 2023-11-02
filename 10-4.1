@@ -1,0 +1,71 @@
+/*
+ Name: Quinton Fesq
+ Date: November 2nd 2023
+ File: 10-4 Part 1
+ 
+ Desription: The last digit of a credit card number is the check digit, which protects against transcription errors such as an error in a single digit or switching two digits. The following method is used to verify actual credit card numbers but, for simplicity, we will describe it for numbers with 8 digits
+ */
+
+#include<iostream>
+#include <ctime>
+#include <iomanip>
+using namespace std;
+
+bool isCardValid(int digits[], int size);
+
+int main() {
+    const int size = 8;
+    int digits[size];
+    char input;
+    bool done = false;
+    while (!done) {
+        cout << "Enter a 8-digit credit card # or Q to quit: ";
+        for (int n = 0; n < size; n++) {
+
+            cin >> input;
+            digits[n] = input - 48;
+            if (input > 64) {
+                done = true;
+                break;
+
+            }
+        }
+        if (input < 64) {
+            if (isCardValid(digits, size) == true) {
+                cout << "Card is valid." << endl;
+            }
+            else {
+                cout << "Card is not valid." << endl;
+            }
+
+        }
+
+        
+    }
+}
+
+
+bool isCardValid(int digits[], int size) {
+    int firstSum = 0;
+    for (int i = 7; i > 0; i = i - 2) {
+        firstSum = firstSum + digits[i];
+    }
+    int Double;
+    int sumDouble;
+    int x = 0;
+    for (int t = 0; t < size - 1; t = t + 2) {
+        Double = digits[t] * 2;
+        sumDouble = Double / 10;
+        Double = Double - (sumDouble * 10);
+
+
+
+        x = x + (sumDouble + Double);
+    }
+    if ((firstSum + x) % 10 == 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
